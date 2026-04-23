@@ -36,11 +36,35 @@
         }
 
         .header {
-            display: grid;
-            grid-template-columns: auto 1fr;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 32px 32px 16px;
+        }
+
+        .left {
+            display: flex;
             gap: 24px;
             align-items: center;
-            padding: 32px 32px 16px;
+        }
+
+        .right {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .right label {
+            font-size: 0.9rem;
+            color: #52525b;
+            font-weight: 600;
+        }
+
+        .right input {
+            padding: 8px 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 0.95rem;
         }
 
         .badge {
@@ -183,7 +207,13 @@
 
         @media (max-width: 720px) {
             .header {
-                grid-template-columns: 1fr;
+                flex-direction: column;
+                align-items: center;
+                gap: 16px;
+            }
+
+            .left {
+                flex-direction: column;
                 text-align: center;
             }
 
@@ -204,10 +234,16 @@
 <body>
     <main class="app">
         <section class="header">
-            <div class="badge">17</div>
-            <div>
-                <h1>Pátek</h1>
-                <p>Aktuální stav plánovaných absencí a onsite týmů</p>
+            <div class="left">
+                <div class="badge">17</div>
+                <div>
+                    <h1>Pátek</h1>
+                    <p>Aktuální stav plánovaných absencí a onsite týmů</p>
+                </div>
+            </div>
+            <div class="right">
+                <label for="name-input">Jméno:</label>
+                <input type="text" id="name-input" placeholder="Vložte jméno">
             </div>
         </section>
 
