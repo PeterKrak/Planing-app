@@ -1,54 +1,258 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome</title>
+    <title>Plánování</title>
     <style>
+        :root {
+            color-scheme: dark;
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #f4f5f7;
+            color: #1f2937;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 24px;
+            background: radial-gradient(circle at top, rgba(102, 126, 234, 0.18), transparent 30%),
+                        linear-gradient(180deg, #eef2ff 0%, #f8fafc 100%);
         }
-        .container {
-            text-align: center;
+
+        .app {
+            width: min(980px, 100%);
             background: white;
-            padding: 50px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 28px;
+            box-shadow: 0 22px 80px rgba(15, 23, 42, 0.12);
+            overflow: hidden;
         }
-        h1 {
-            color: #333;
+
+        .header {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 24px;
+            align-items: center;
+            padding: 32px 32px 16px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 72px;
+            height: 72px;
+            border-radius: 24px;
+            background: #eef2ff;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: #3730a3;
+        }
+
+        .header h1 {
+            margin: 0 0 8px;
+            font-size: 2rem;
+            letter-spacing: -0.04em;
+        }
+
+        .header p {
             margin: 0;
+            color: #52525b;
+            font-size: 0.98rem;
         }
-        p {
-            color: #666;
-            margin-top: 10px;
+
+        .cards {
+            display: grid;
+            gap: 20px;
+            padding: 0 32px 32px;
         }
-        button {
-            margin-top: 20px;
-            padding: 10px 30px;
-            background-color: #667eea;
-            color: white;
+
+        .card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 24px;
+            padding: 26px 28px;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+        }
+
+        .card h2 {
+            margin: 0 0 14px;
+            font-size: 1.05rem;
+            letter-spacing: -0.02em;
+            color: #111827;
+        }
+
+        .section-title {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 14px;
+        }
+
+        .section-title span {
+            font-size: 1.15rem;
+        }
+
+        ul {
+            margin: 0;
+            padding-left: 18px;
+            color: #4b5563;
+            line-height: 1.85;
+        }
+
+        ul li {
+            margin-bottom: 6px;
+        }
+
+        .status-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+            color: #374151;
+            font-size: 0.95rem;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 999px;
+            padding: 10px 16px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 24px 32px 32px;
+            border-top: 1px solid #e5e7eb;
+            background: #f8fafc;
+        }
+
+        .toolbar button {
             border: none;
-            border-radius: 5px;
+            border-radius: 999px;
+            padding: 12px 18px;
+            font-size: 0.95rem;
+            font-weight: 600;
             cursor: pointer;
-            font-size: 16px;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            background: #f3f4f6;
+            color: #1f2937;
         }
-        button:hover {
-            background-color: #764ba2;
+
+        .toolbar button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+        }
+
+        .toolbar button.primary {
+            background: #4338ca;
+            color: white;
+        }
+
+        .toolbar button.positive {
+            background: #ecfdf5;
+            color: #166534;
+        }
+
+        .toolbar button.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .toolbar button.neutral {
+            background: #e2e8f0;
+            color: #1f2937;
+        }
+
+        @media (max-width: 720px) {
+            .header {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .header h1 {
+                font-size: 1.75rem;
+            }
+
+            .cards {
+                padding: 0 20px 24px;
+            }
+
+            .toolbar {
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome</h1>
-        <p>Welcome to the Planning App</p>
-        <button onclick="alert('Ready to start planning!')">Get Started</button>
-    </div>
+    <main class="app">
+        <section class="header">
+            <div class="badge">17</div>
+            <div>
+                <h1>Pátek</h1>
+                <p>Aktuální stav plánovaných absencí a onsite týmů</p>
+            </div>
+        </section>
+
+        <section class="cards">
+            <article class="card">
+                <div class="section-title"><span>🏠</span> Home Office:</div>
+                <ul>
+                    <li>Daniel Richter</li>
+                    <li>Daniel Tuček</li>
+                    <li>Miroslav Vlodarčík</li>
+                    <li>Štěpán Pořádek</li>
+                    <li>Jarka (since Apr 24)</li>
+                    <li>Juraj Fečanin (Apr 23-24)</li>
+                    <li>Markéta Jarošová (since Apr 20)</li>
+                    <li>Tereza Lányiová (since Apr 24)</li>
+                </ul>
+            </article>
+
+            <article class="card">
+                <div class="section-title"><span>🌴</span> Vacation:</div>
+                <ul>
+                    <li>pavel-srkal</li>
+                </ul>
+            </article>
+
+            <article class="card">
+                <div class="section-title"><span>📍</span> Onsite</div>
+                <p style="margin: 0; color: #475569;">7 onsite, 3 confirmed</p>
+                <div class="status-row">
+                    <div class="pill">✅ Confirm Onsite</div>
+                    <div class="pill">🏠 HO</div>
+                    <div class="pill">🌴 Vacation</div>
+                    <div class="pill">📅 Planned Absences</div>
+                    <div class="pill">🗂️ Show all</div>
+                </div>
+            </article>
+        </section>
+
+        <section class="toolbar">
+            <button class="primary">Confirm Onsite</button>
+            <button class="neutral">HO</button>
+            <button class="warning">Vacation</button>
+            <button class="neutral">Planned Absences</button>
+            <button class="positive">Show all</button>
+        </section>
+    </main>
 </body>
 </html>
