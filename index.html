@@ -291,11 +291,13 @@
                     <button type="button" class="pill">📅 Planned Absences</button>
                     <button type="button" class="pill" onclick="showAllConfirmed()">🗂️ Show all</button>
                 </div>
+                <div id="history-links" class="status-row" style="margin-top: 16px; justify-content: center;"></div>
             </article>
         </section>
 
     </main>
     <script>
+        let currentDate = new Date().toDateString();
         const confirmedNames = new Set();
 
         function removeNameFromAllSections(name) {
@@ -329,7 +331,6 @@
             const statusText = document.getElementById('status-text');
 
             const data = {
-                date: new Date().toDateString(),
                 userName: display.textContent,
                 homeOffice: Array.from(hoList.querySelectorAll('li')).map(li => li.textContent),
                 vacation: Array.from(vacationList.querySelectorAll('li')).map(li => li.textContent),
@@ -337,19 +338,14 @@
                 confirmedText: statusText.textContent
             };
 
-            localStorage.setItem('planningAppData', JSON.stringify(data));
+            const key = 'planningAppData_' + currentDate;
+            localStorage.setItem(key, JSON.stringify(data));
         }
 
-        function loadData() {
-            const data = JSON.parse(localStorage.getItem('planningAppData'));
+        function loadData(date = currentDate) {
+            const key = 'planningAppData_' + date;
+            const data = JSON.parse(localStorage.getItem(key));
             if (!data) return;
-
-            const today = new Date().toDateString();
-            if (data.date !== today) {
-                // Nový den - vymaž všechna data
-                localStorage.removeItem('planningAppData');
-                return;
-            }
 
             const display = document.getElementById('name-display');
             const hoList = document.getElementById('home-office-list');
@@ -365,6 +361,12 @@
                 input.style.display = 'none';
                 label.style.display = 'none';
                 button.textContent = 'Change';
+            } else {
+                display.style.display = 'none';
+                input.style.display = 'inline-block';
+                label.style.display = 'inline';
+                button.textContent = 'Save';
+                input.value = '';
             }
 
             hoList.innerHTML = '';
@@ -391,6 +393,36 @@
             }
 
             statusText.textContent = data.confirmedText || '';
+        }
+
+        function loadHistoricalData(dateString) {
+            currentDate = dateString;
+            loadData(dateString);
+            updateDateBadge();
+            updateWeekdayName();
+            updateHistoryLinks();
+        }
+
+        function updateHistoryLinks() {
+            const historyContainer = document.getElementById('history-links');
+            historyContainer.innerHTML = '';
+
+            const today = new Date();
+            for (let i = 1; i <= 7; i++) {
+                const date = new Date(today);
+                date.setDate(today.getDate() - i);
+                const dateString = date.toDateString();
+                const key = 'planningAppData_' + dateString;
+
+                if (localStorage.getItem(key)) {
+                    const link = document.createElement('button');
+                    link.type = 'button';
+                    link.className = 'pill';
+                    link.textContent = date.toLocaleDateString('cs-CZ');
+                    link.onclick = () => loadHistoricalData(dateString);
+                    historyContainer.appendChild(link);
+                }
+            }
         }
 
         function confirmOnsite() {
@@ -473,8 +505,8 @@
         function updateDateBadge() {
             const badge = document.getElementById('date-badge');
             if (!badge) return;
-            const today = new Date();
-            badge.textContent = String(today.getDate());
+            const date = new Date(currentDate);
+            badge.textContent = String(date.getDate());
         }
 
         function updateWeekdayName() {
@@ -482,8 +514,8 @@
             if (!title) return;
 
             const weekdaysCs = ['Neděle', 'Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota'];
-            const today = new Date();
-            title.textContent = weekdaysCs[today.getDay()];
+            const date = new Date(currentDate);
+            title.textContent = weekdaysCs[date.getDay()];
         }
 
         function toggleSaveChange() {
@@ -528,6 +560,7 @@
         updateDateBadge();
         updateWeekdayName();
         loadData();
+        updateHistoryLinks();
     </script>
 </body>
 </html>
