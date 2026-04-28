@@ -296,12 +296,31 @@
 
     </main>
     <script>
+        const confirmedNames = new Set();
+
         function confirmOnsite() {
+            const display = document.getElementById('name-display');
+            const input = document.getElementById('name-input');
+            const name = display.style.display !== 'none' ? display.textContent.trim() : input.value.trim();
+            
+            if (!name) {
+                return;
+            }
+
             const statusText = document.getElementById('status-text');
             const text = statusText.textContent.trim();
             const match = text.match(/(\d+) confirmed/);
-            const confirmed = match ? parseInt(match[1]) + 1 : 1;
-            statusText.textContent = `${confirmed} confirmed`;
+            let confirmed = match ? parseInt(match[1]) : 0;
+
+            if (confirmedNames.has(name)) {
+                confirmedNames.delete(name);
+                confirmed--;
+            } else {
+                confirmedNames.add(name);
+                confirmed++;
+            }
+
+            statusText.textContent = confirmed > 0 ? `${confirmed} confirmed` : '';
         }
 
         function addHomeOffice() {
