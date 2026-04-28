@@ -319,6 +319,70 @@
                 confirmed--;
                 statusText.textContent = confirmed > 0 ? `${confirmed} confirmed` : '';
             }
+            saveData();
+        }
+
+        function saveData() {
+            const hoList = document.getElementById('home-office-list');
+            const vacationList = document.getElementById('vacation-list');
+            const display = document.getElementById('name-display');
+            const statusText = document.getElementById('status-text');
+
+            const data = {
+                userName: display.textContent,
+                homeOffice: Array.from(hoList.querySelectorAll('li')).map(li => li.textContent),
+                vacation: Array.from(vacationList.querySelectorAll('li')).map(li => li.textContent),
+                confirmed: Array.from(confirmedNames),
+                confirmedText: statusText.textContent
+            };
+
+            localStorage.setItem('planningAppData', JSON.stringify(data));
+        }
+
+        function loadData() {
+            const data = JSON.parse(localStorage.getItem('planningAppData'));
+            if (!data) return;
+
+            const display = document.getElementById('name-display');
+            const hoList = document.getElementById('home-office-list');
+            const vacationList = document.getElementById('vacation-list');
+            const statusText = document.getElementById('status-text');
+            const button = document.getElementById('save-button');
+            const label = document.getElementById('name-label');
+            const input = document.getElementById('name-input');
+
+            if (data.userName) {
+                display.textContent = data.userName;
+                display.style.display = 'inline';
+                input.style.display = 'none';
+                label.style.display = 'none';
+                button.textContent = 'Change';
+            }
+
+            hoList.innerHTML = '';
+            if (data.homeOffice && Array.isArray(data.homeOffice)) {
+                data.homeOffice.forEach(name => {
+                    const item = document.createElement('li');
+                    item.textContent = name;
+                    hoList.appendChild(item);
+                });
+            }
+
+            vacationList.innerHTML = '';
+            if (data.vacation && Array.isArray(data.vacation)) {
+                data.vacation.forEach(name => {
+                    const item = document.createElement('li');
+                    item.textContent = name;
+                    vacationList.appendChild(item);
+                });
+            }
+
+            confirmedNames.clear();
+            if (data.confirmed && Array.isArray(data.confirmed)) {
+                data.confirmed.forEach(name => confirmedNames.add(name));
+            }
+
+            statusText.textContent = data.confirmedText || '';
         }
 
         function confirmOnsite() {
@@ -345,6 +409,7 @@
             }
 
             statusText.textContent = confirmed > 0 ? `${confirmed} confirmed` : '';
+            saveData();
         }
 
         function addHomeOffice() {
@@ -369,6 +434,7 @@
                 item.textContent = name;
                 list.appendChild(item);
             }
+            saveData();
         }
 
         function addVacation() {
@@ -393,6 +459,7 @@
                 item.textContent = name;
                 list.appendChild(item);
             }
+            saveData();
         }
 
         function updateDateBadge() {
@@ -437,10 +504,12 @@
                 button.textContent = 'Save';
                 input.focus();
             }
+            saveData();
         }
 
         updateDateBadge();
         updateWeekdayName();
+        loadData();
     </script>
 </body>
 </html>
