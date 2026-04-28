@@ -265,7 +265,7 @@
             <div class="right">
                 <label for="name-input">Jméno:</label>
                 <input type="text" id="name-input" placeholder="Vložte jméno">
-                <button type="button" class="pill">Save</button>
+                <button type="button" id="save-button" class="pill" onclick="toggleSaveChange()">Save</button>
             </div>
         </section>
 
@@ -349,6 +349,24 @@
             const weekdaysCs = ['Neděle', 'Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota'];
             const today = new Date();
             title.textContent = weekdaysCs[today.getDay()];
+        }
+
+        function toggleSaveChange() {
+            const input = document.getElementById('name-input');
+            const button = document.getElementById('save-button');
+            const currentMode = button.textContent.trim();
+
+            if (currentMode === 'Save') {
+                const name = input.value.trim();
+                if (!name) {
+                    input.focus();
+                    return;
+                }
+                button.textContent = 'Change';
+            } else {
+                button.textContent = 'Save';
+                input.focus();
+            }
         }
 
         updateDateBadge();
