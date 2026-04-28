@@ -298,6 +298,21 @@
     <script>
         const confirmedNames = new Set();
 
+        function removeNameFromAllSections(name) {
+            const hoList = document.getElementById('home-office-list');
+            const vacationList = document.getElementById('vacation-list');
+
+            const hoItems = Array.from(hoList.querySelectorAll('li'));
+            const hoItem = hoItems.find(item => item.textContent === name);
+            if (hoItem) hoItem.remove();
+
+            const vacItems = Array.from(vacationList.querySelectorAll('li'));
+            const vacItem = vacItems.find(item => item.textContent === name);
+            if (vacItem) vacItem.remove();
+
+            confirmedNames.delete(name);
+        }
+
         function confirmOnsite() {
             const display = document.getElementById('name-display');
             const input = document.getElementById('name-input');
@@ -316,6 +331,7 @@
                 confirmedNames.delete(name);
                 confirmed--;
             } else {
+                removeNameFromAllSections(name);
                 confirmedNames.add(name);
                 confirmed++;
             }
@@ -340,6 +356,7 @@
             if (existingItem) {
                 existingItem.remove();
             } else {
+                removeNameFromAllSections(name);
                 const item = document.createElement('li');
                 item.textContent = name;
                 list.appendChild(item);
@@ -363,6 +380,7 @@
             if (existingItem) {
                 existingItem.remove();
             } else {
+                removeNameFromAllSections(name);
                 const item = document.createElement('li');
                 item.textContent = name;
                 list.appendChild(item);
