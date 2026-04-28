@@ -329,6 +329,7 @@
             const statusText = document.getElementById('status-text');
 
             const data = {
+                date: new Date().toDateString(),
                 userName: display.textContent,
                 homeOffice: Array.from(hoList.querySelectorAll('li')).map(li => li.textContent),
                 vacation: Array.from(vacationList.querySelectorAll('li')).map(li => li.textContent),
@@ -342,6 +343,13 @@
         function loadData() {
             const data = JSON.parse(localStorage.getItem('planningAppData'));
             if (!data) return;
+
+            const today = new Date().toDateString();
+            if (data.date !== today) {
+                // Nový den - vymaž všechna data
+                localStorage.removeItem('planningAppData');
+                return;
+            }
 
             const display = document.getElementById('name-display');
             const hoList = document.getElementById('home-office-list');
