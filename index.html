@@ -310,7 +310,15 @@
             const vacItem = vacItems.find(item => item.textContent === name);
             if (vacItem) vacItem.remove();
 
-            confirmedNames.delete(name);
+            if (confirmedNames.has(name)) {
+                confirmedNames.delete(name);
+                const statusText = document.getElementById('status-text');
+                const text = statusText.textContent.trim();
+                const match = text.match(/(\d+) confirmed/);
+                let confirmed = match ? parseInt(match[1]) : 0;
+                confirmed--;
+                statusText.textContent = confirmed > 0 ? `${confirmed} confirmed` : '';
+            }
         }
 
         function confirmOnsite() {
