@@ -257,7 +257,7 @@
             <div class="left">
                 <div class="badge" id="date-badge">17</div>
                 <div>
-                    <h1>Pátek</h1>
+                    <h1 id="weekday-name">Pátek</h1>
                     <p>Aktuální stav plánovaných absencí a onsite týmů</p>
                 </div>
             </div>
@@ -343,7 +343,17 @@
             badge.textContent = String(today.getDate());
         }
 
+        function updateWeekdayName() {
+            const title = document.getElementById('weekday-name');
+            if (!title) return;
+
+            const weekdaysCs = ['Neděle', 'Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota'];
+            const today = new Date();
+            title.textContent = weekdaysCs[today.getDay()];
+        }
+
         updateDateBadge();
+        updateWeekdayName();
     </script>
 </body>
 </html>
