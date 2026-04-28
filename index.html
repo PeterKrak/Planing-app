@@ -281,7 +281,7 @@
 
             <article class="card">
                 <div class="section-title"><span>📍</span> Onsite</div>
-                <p id="status-text" style="margin: 0; color: #475569;">7 onsite, 3 confirmed</p>
+                <p id="status-text" style="margin: 0; color: #475569;"></p>
                 <div class="status-row">
                         <button type="button" class="pill" onclick="confirmOnsite()">✅ Confirm Onsite</button>
                     <button type="button" class="pill" onclick="addHomeOffice()">🏠 HO</button>
@@ -296,13 +296,10 @@
     <script>
         function confirmOnsite() {
             const statusText = document.getElementById('status-text');
-            const text = statusText.textContent;
-            const match = text.match(/(\d+) onsite, (\d+) confirmed/);
-            if (match) {
-                const onsite = parseInt(match[1]);
-                const confirmed = parseInt(match[2]) + 1;
-                statusText.textContent = `${onsite} onsite, ${confirmed} confirmed`;
-            }
+            const text = statusText.textContent.trim();
+            const match = text.match(/(\d+) confirmed/);
+            const confirmed = match ? parseInt(match[1]) + 1 : 1;
+            statusText.textContent = `${confirmed} confirmed`;
         }
 
         function addHomeOffice() {
