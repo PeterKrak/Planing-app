@@ -270,7 +270,7 @@
         <section class="cards">
             <article class="card">
                 <div class="section-title"><span>🏠</span> Home Office:</div>
-                <ul>
+                <ul id="home-office-list">
                     <li>Daniel Richter</li>
                     <li>Daniel Tuček</li>
                     <li>Miroslav Vlodarčík</li>
@@ -294,7 +294,7 @@
                 <p id="status-text" style="margin: 0; color: #475569;">7 onsite, 3 confirmed</p>
                 <div class="status-row">
                         <button type="button" class="pill" onclick="confirmOnsite()">✅ Confirm Onsite</button>
-                    <button type="button" class="pill">🏠 HO</button>
+                    <button type="button" class="pill" onclick="addHomeOffice()">🏠 HO</button>
                     <button type="button" class="pill">🌴 Vacation</button>
                     <button type="button" class="pill">📅 Planned Absences</button>
                     <button type="button" class="pill">🗂️ Show all</button>
@@ -313,6 +313,22 @@
                 const confirmed = parseInt(match[2]) + 1;
                 statusText.textContent = `${onsite} onsite, ${confirmed} confirmed`;
             }
+        }
+
+        function addHomeOffice() {
+            const input = document.getElementById('name-input');
+            const name = input.value.trim();
+            if (!name) {
+                input.focus();
+                return;
+            }
+
+            const list = document.getElementById('home-office-list');
+            const item = document.createElement('li');
+            item.textContent = name;
+            list.appendChild(item);
+            input.value = '';
+            input.focus();
         }
     </script>
 </body>
