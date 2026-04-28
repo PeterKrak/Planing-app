@@ -263,8 +263,9 @@
                 </div>
             </div>
             <div class="right">
-                <label for="name-input">Jméno:</label>
+                <label for="name-input" id="name-label">Jméno:</label>
                 <input type="text" id="name-input" placeholder="Vložte jméno">
+                <span id="name-display" style="display: none; font-weight: 600; color: #334155;"></span>
                 <button type="button" id="save-button" class="pill" onclick="toggleSaveChange()">Save</button>
             </div>
         </section>
@@ -353,6 +354,8 @@
 
         function toggleSaveChange() {
             const input = document.getElementById('name-input');
+            const label = document.getElementById('name-label');
+            const display = document.getElementById('name-display');
             const button = document.getElementById('save-button');
             const currentMode = button.textContent.trim();
 
@@ -362,8 +365,16 @@
                     input.focus();
                     return;
                 }
+                input.style.display = 'none';
+                label.style.display = 'none';
+                display.textContent = name;
+                display.style.display = 'inline';
                 button.textContent = 'Change';
             } else {
+                input.style.display = 'inline-block';
+                label.style.display = 'inline';
+                display.style.display = 'none';
+                input.value = display.textContent;
                 button.textContent = 'Save';
                 input.focus();
             }
