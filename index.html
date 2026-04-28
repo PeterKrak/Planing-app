@@ -275,9 +275,7 @@
 
             <article class="card">
                 <div class="section-title"><span>🌴</span> Vacation:</div>
-                <ul>
-                    <li>pavel-srkal</li>
-                </ul>
+                <ul id="vacation-list"></ul>
             </article>
 
             <article class="card">
@@ -286,7 +284,7 @@
                 <div class="status-row">
                         <button type="button" class="pill" onclick="confirmOnsite()">✅ Confirm Onsite</button>
                     <button type="button" class="pill" onclick="addHomeOffice()">🏠 HO</button>
-                    <button type="button" class="pill">🌴 Vacation</button>
+                    <button type="button" class="pill" onclick="addVacation()">🌴 Vacation</button>
                     <button type="button" class="pill">📅 Planned Absences</button>
                     <button type="button" class="pill">🗂️ Show all</button>
                 </div>
@@ -315,6 +313,22 @@
             }
 
             const list = document.getElementById('home-office-list');
+            const item = document.createElement('li');
+            item.textContent = name;
+            list.appendChild(item);
+            input.value = '';
+            input.focus();
+        }
+
+        function addVacation() {
+            const input = document.getElementById('name-input');
+            const name = input.value.trim();
+            if (!name) {
+                input.focus();
+                return;
+            }
+
+            const list = document.getElementById('vacation-list');
             const item = document.createElement('li');
             item.textContent = name;
             list.appendChild(item);
