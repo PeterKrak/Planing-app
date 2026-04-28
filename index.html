@@ -289,7 +289,7 @@
                     <button type="button" class="pill" onclick="addHomeOffice()">🏠 HO</button>
                     <button type="button" class="pill" onclick="addVacation()">🌴 Vacation</button>
                     <button type="button" class="pill">📅 Planned Absences</button>
-                    <button type="button" class="pill">🗂️ Show all</button>
+                    <button type="button" class="pill" onclick="showAllConfirmed()">🗂️ Show all</button>
                 </div>
             </article>
         </section>
@@ -505,6 +505,16 @@
                 input.focus();
             }
             saveData();
+        }
+
+        function showAllConfirmed() {
+            if (confirmedNames.size === 0) {
+                alert('Žádní confirmed uživatelé.');
+                return;
+            }
+            
+            const namesList = Array.from(confirmedNames).join('\n');
+            alert('Confirmed uživatelé:\n\n' + namesList);
         }
 
         updateDateBadge();
