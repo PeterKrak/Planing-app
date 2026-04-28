@@ -324,35 +324,49 @@
         }
 
         function addHomeOffice() {
+            const display = document.getElementById('name-display');
             const input = document.getElementById('name-input');
-            const name = input.value.trim();
+            const name = display.style.display !== 'none' ? display.textContent.trim() : input.value.trim();
+            
             if (!name) {
                 input.focus();
                 return;
             }
 
             const list = document.getElementById('home-office-list');
-            const item = document.createElement('li');
-            item.textContent = name;
-            list.appendChild(item);
-            input.value = '';
-            input.focus();
+            const items = Array.from(list.querySelectorAll('li'));
+            const existingItem = items.find(item => item.textContent === name);
+
+            if (existingItem) {
+                existingItem.remove();
+            } else {
+                const item = document.createElement('li');
+                item.textContent = name;
+                list.appendChild(item);
+            }
         }
 
         function addVacation() {
+            const display = document.getElementById('name-display');
             const input = document.getElementById('name-input');
-            const name = input.value.trim();
+            const name = display.style.display !== 'none' ? display.textContent.trim() : input.value.trim();
+            
             if (!name) {
                 input.focus();
                 return;
             }
 
             const list = document.getElementById('vacation-list');
-            const item = document.createElement('li');
-            item.textContent = name;
-            list.appendChild(item);
-            input.value = '';
-            input.focus();
+            const items = Array.from(list.querySelectorAll('li'));
+            const existingItem = items.find(item => item.textContent === name);
+
+            if (existingItem) {
+                existingItem.remove();
+            } else {
+                const item = document.createElement('li');
+                item.textContent = name;
+                list.appendChild(item);
+            }
         }
 
         function updateDateBadge() {
