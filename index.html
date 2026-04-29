@@ -405,7 +405,13 @@
 
         function updateHistoryLinks() {
             const historyContainer = document.getElementById('history-links');
+            if (!historyContainer) {
+                console.error('History container not found!');
+                return;
+            }
             historyContainer.innerHTML = '';
+
+            console.log('Updating history links...');
 
             const today = new Date();
             for (let i = 1; i <= 7; i++) {
@@ -414,15 +420,23 @@
                 const dateString = date.toDateString();
                 const key = 'planningAppData_' + dateString;
 
+                console.log('Checking key:', key, 'Exists:', !!localStorage.getItem(key));
+
                 if (localStorage.getItem(key)) {
                     const link = document.createElement('button');
                     link.type = 'button';
                     link.className = 'pill';
-                    link.textContent = date.toLocaleDateString('cs-CZ');
+                    if (i === 1) {
+                        link.textContent = '📅 Yesterday';
+                    } else {
+                        link.textContent = date.toLocaleDateString('cs-CZ');
+                    }
                     link.onclick = () => loadHistoricalData(dateString);
                     historyContainer.appendChild(link);
                 }
             }
+
+            console.log('History links updated, container has', historyContainer.children.length, 'children');
         }
 
         function confirmOnsite() {
@@ -561,6 +575,23 @@
         updateWeekdayName();
         loadData();
         updateHistoryLinks();
+
+        // Odstranit testovací data - používat jen skutečná data
+        // const yesterday = new Date();
+        // yesterday.setDate(yesterday.getDate() - 1);
+        // const yesterdayKey = 'planningAppData_' + yesterday.toDateString();
+        // if (!localStorage.getItem(yesterdayKey)) {
+        //     const testData = {
+        //         userName: 'Test User',
+        //         homeOffice: ['John Doe', 'Jane Smith'],
+        //         vacation: ['Bob Johnson'],
+        //         confirmed: ['John Doe'],
+        //         confirmedText: '1 confirmed'
+        //     };
+        //     localStorage.setItem(yesterdayKey, JSON.stringify(testData));
+        //     console.log('Added test data for yesterday:', yesterday.toDateString());
+        //     updateHistoryLinks();
+        // }
     </script>
 </body>
 </html>
